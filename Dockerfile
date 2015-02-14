@@ -1,3 +1,3 @@
 FROM scratch
 MAINTAINER Manfred Touron <m@42.am>
-ADD fedora-20-minimal.tar.bz2 /
+ADD fedora-21-minimal.tar.bz2 /
