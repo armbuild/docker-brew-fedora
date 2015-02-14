@@ -1,0 +1,4 @@
+*~
+*.raw
+rootfs/
+*.tar.xz

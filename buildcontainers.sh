@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 # Fetching & uncompress release
 wget http://fedora.mirrors.ovh.net/linux/releases/21/Images/armhfp/Fedora-Minimal-armhfp-21-5-sda.raw.xz
 unxz -v Fedora-Minimal-armhfp-21-5-sda.raw.xz
@@ -20,9 +22,15 @@ unxz -v Fedora-Minimal-armhfp-21-5-sda.raw.xz
 #    Fedora-Minimal-armhfp-21-5-sda.raw3         1251328     3985407     1367040   83  Linux
 # The first partition is /boot, the second partition is swap, the third partition is the rootfs (what we want)
 rm -rf rootfs && mkdir rootfs
-mount -o loop,offset=$((1251328 * 512)) Fedora-Minimal-armhfp-21-5-sda.raw.xz rootfs
+mount -o loop,offset=$((1251328 * 512)) Fedora-Minimal-armhfp-21-5-sda.raw rootfs
 
 # make clean ?
 
 tar -C rootfs/ -jcf fedora-21-minimal.tar.xz .
 
+umount rootfs
+
+docker build -t armbuild/fedora-qcow-minimal:21 .
+docker tag armbuild/fedora-qcow-minimal:21 armbuild/fedora-qcow-minimal:latest
+docker tag armbuild/fedora-qcow-minimal:21 armbuild/fedora-qcow-minimal:twenty-one
+docker tag armbuild/fedora-qcow-minimal:21 armbuild/fedora-qcow-minimal:21-5
